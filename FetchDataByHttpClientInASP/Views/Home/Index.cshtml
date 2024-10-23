@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model FetchDataByHttpClientInASP.Models.TodoItem;
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <h2>Todo Item</h2>
+</div>
+
+
+@if (Model != null)
+{
+    <p><strong>Todo ID:</strong> @Model.Id</p>
+    <p><strong>Title:</strong> @Model.Title</p>
+    <p><strong>Completed:</strong> @(Model.Completed ? "Yes" : "No")</p>
+}
+else
+{
+    <p>Error fetching data</p>
+}
+
+<div class="text-center">
+    <h2>Users List:</h2>
+    <button asp-controller="Home" asp-action="LoadUsers">Load Users</button>
+</div>
+
+@section Scripts{
+
+    <script>
+        // data access that's comes from controller
+        const data = @Html.Raw(Json.Serialize(Model));
+        console.log(data);
+    </script>
+
+}
+
+
+
+
