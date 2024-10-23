@@ -22,7 +22,12 @@ else
 
 <div class="text-center">
     <h2>Users List:</h2>
-    <button asp-controller="Home" asp-action="LoadUsers">Load Users</button>
+    <!-- Button to Load Users -->
+    <button id="loadUsersBtn">Load Users</button>
+
+    <!-- Container to display users data -->
+    <div id="usersContainer"></div>
+    @* <button asp-controller="Home" asp-action="LoadUsers">Load Users</button> *@
 </div>
 
 @section Scripts{
@@ -31,10 +36,30 @@ else
         // data access that's comes from controller
         const data = @Html.Raw(Json.Serialize(Model));
         console.log(data);
+
+        document.getElementById('loadUsersBtn').addEventListener('click', function () {
+            fetch('/Home/LoadUsers') // Server-side endpoint
+                .then(response => response.json())
+                .then(users => {
+                    let usersContainer = document.getElementById('usersContainer');
+
+                    // Clear existing content
+                    usersContainer.innerHTML = '';
+
+                    // Loop through and display users
+                    users.forEach(user => {
+                        usersContainer.innerHTML += `
+                                <div>
+                                    <p><strong>Name:</strong> ${user.name}</p>
+                                    <p><strong>Email:</strong> ${user.email}</p>
+                                    <p><strong>Phone:</strong> ${user.phone}</p>
+                                    <hr />
+                                </div>
+                            `;
+                    });
+                })
+                .catch(error => console.error('Error fetching users:', error));
+        });
     </script>
 
 }
-
-
-
-

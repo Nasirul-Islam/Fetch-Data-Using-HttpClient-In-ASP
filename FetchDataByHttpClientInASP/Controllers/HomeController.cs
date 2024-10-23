@@ -33,12 +33,12 @@ namespace FetchDataByHttpClientInASP.Controllers
         [HttpGet]
         public async Task<IActionResult> LoadUsers() 
         {
-            string apiUrl = "https://jsonplaceholder.typicode.com/users";
+            string apiUrl = "https://jsonplaceholder.typicode.com";
             var response = await _httpClient.GetAsync($"{apiUrl}/users");
             if (response.IsSuccessStatusCode)
             {
                 var jsonData = await response.Content.ReadAsStringAsync();
-                var users = JsonConvert.DeserializeObject(jsonData);
+                var users = JsonConvert.DeserializeObject<List<User>>(jsonData);
                 return Json(users);
                 //var users = JsonConvert.DeserializeObject<List<User>>(jsonData);
                 //return Json(users); // Return data as JSON
